@@ -6,6 +6,13 @@
 
 .DS_Store
 
-# direnv files
-.envrc
-.direnv
+# The cache for docker container dependency
+.cargo
+
+# The cache for chain data in container
+.local
+
+# Temp files for local development
+maintain
+
+raw.json
