@@ -1,11 +1,10 @@
 [workspace]
+resolver = "2"
 members = [
-    'node',
-    'pallets/template',
-    'pallets/poe',
-    # 'pallets/data-type',
-    # 'pallets/genesis-config',
-    'runtime',
+    "node",
+    "pallets/template",
+    "pallets/kitties",
+    "runtime",
 ]
 [profile.release]
-panic = 'unwind'
+panic = "unwind"
