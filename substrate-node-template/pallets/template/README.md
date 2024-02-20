@@ -1,1 +1,1 @@
-License: MIT-0
+License: Unlicense
