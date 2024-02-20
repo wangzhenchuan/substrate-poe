@@ -37,6 +37,8 @@ pub trait WeightInfo {
 	fn create() -> Weight;
 	fn breed() -> Weight;
 	fn transfer() -> Weight;
+	fn sale() -> Weight;
+	fn buy() -> Weight;
 }
 
 /// Weights for pallet_template using the Substrate node and recommended hardware.
@@ -56,6 +58,14 @@ impl<T: frame_system::Config> WeightInfo for SubstrateWeight<T> {
 		Weight::from_parts(9_000_000, 0)
 			.saturating_add(T::DbWeight::get().writes(1_u64))
 	}
+	fn sale() -> Weight {
+		Weight::from_parts(9_000_000, 0)
+			.saturating_add(T::DbWeight::get().writes(1_u64))
+	}
+	fn buy() -> Weight {
+		Weight::from_parts(9_000_000, 0)
+			.saturating_add(T::DbWeight::get().writes(1_u64))
+	}
 }
 
 // For backwards compatibility and tests
@@ -69,6 +79,14 @@ impl WeightInfo for () {
 			.saturating_add(RocksDbWeight::get().writes(1_u64))
 	}
 	fn transfer() -> Weight {
+		Weight::from_parts(9_000_000, 0)
+			.saturating_add(RocksDbWeight::get().writes(1_u64))
+	}	
+	fn sale() -> Weight {
+		Weight::from_parts(9_000_000, 0)
+			.saturating_add(RocksDbWeight::get().writes(1_u64))
+	}
+	fn buy() -> Weight {
 		Weight::from_parts(9_000_000, 0)
 			.saturating_add(RocksDbWeight::get().writes(1_u64))
 	}
