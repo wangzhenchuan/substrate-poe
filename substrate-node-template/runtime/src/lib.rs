@@ -6,7 +6,6 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
-use frame_support::PalletId;
 use pallet_grandpa::AuthorityId as GrandpaId;
 use sp_api::impl_runtime_apis;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
@@ -105,7 +104,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	//   `spec_version`, and `authoring_version` are the same between Wasm and native.
 	// This value is set to 100 to notify Polkadot-JS App (https://polkadot.js.org/apps) to use
 	//   the compatible custom types.
-	spec_version: 300,
+	spec_version: 100,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
@@ -275,27 +274,10 @@ impl pallet_template::Config for Runtime {
 	type WeightInfo = pallet_template::weights::SubstrateWeight<Runtime>;
 }
 
-impl pallet_insecure_randomness_collective_flip::Config for Runtime {}
-
-parameter_types! {
-	pub KittyPalletId: PalletId = PalletId(*b"py/kitty");
-	pub KittyPrice: Balance = EXISTENTIAL_DEPOSIT * 10;
-}
-
-impl pallet_kitties::Config for Runtime{
-	type RuntimeEvent = RuntimeEvent;
-	type WeightInfo = pallet_kitties::weights::SubstrateWeight<Runtime>;
-	type Randomness = RandomnessCollectiveFlip;
-	type Currency = Balances;
-	type KittyPrice = KittyPrice;
-	type PalletId = KittyPalletId;
-}
-
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub struct Runtime {
 		System: frame_system,
-		RandomnessCollectiveFlip: pallet_insecure_randomness_collective_flip,
 		Timestamp: pallet_timestamp,
 		Aura: pallet_aura,
 		Grandpa: pallet_grandpa,
@@ -304,7 +286,6 @@ construct_runtime!(
 		Sudo: pallet_sudo,
 		// Include the custom logic from the pallet-template in the runtime.
 		TemplateModule: pallet_template,
-		KittyModule:pallet_kitties,
 	}
 );
 

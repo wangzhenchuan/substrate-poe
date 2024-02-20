@@ -13,6 +13,9 @@ mod tests;
 
 #[cfg(feature = "runtime-benchmarks")]
 mod benchmarking;
+
+use sp_runtime::{offchain::storage::StorageValueRef, traits::Zero};
+
 pub mod weights;
 pub use weights::*;
 
@@ -105,4 +108,28 @@ pub mod pallet {
 			}
 		}
 	}
+
+	#[pallet::hooks]
+	impl<T: Config> Hooks<BlockNumberFor<T>> for Pallet<T> {
+		fn offchain_worker(block_number: BlockNumberFor<T>) {
+			log::info!("OCW ==> Hello World from offchain workers!: {:?}", block_number);
+
+			// even
+			let key = b"testkey";
+			let mut val_ref = StorageValueRef::persistent(key);
+
+			if let Ok(Some(value)) = val_ref.get::<([u8; 32], u64)>() {
+				// print values
+				log::info!("OCW ==> in block, value read: {:?}", value);
+				// delete that key
+				val_ref.clear();
+			} else {
+				let value = b"testvalue";
+				val_ref.set(value);
+			}
+
+			log::info!("OCW ==> Leave from offchain workers!: {:?}", block_number);
+		}
+	}
+	
 }
